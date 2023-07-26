@@ -4116,12 +4116,16 @@ class UserController {
 
     <BugPattern type="ENTITY_MASS_ASSIGNMENT">
         <ShortDescription>Mass assignment</ShortDescription>
-        <LongDescription>The persistent objects could be exploited by attacker to read sensitive information.</LongDescription>
+        <LongDescription>Persistent objects as MVC parameter could allow attacker to set fields that the developer never intended to be set via request parameters.</LongDescription>
         <Details>
             <![CDATA[
 <p>
-    Persistent objects should never be returned by APIs. They might lead to leaking business logic over the UI, unauthorized tampering of
-    persistent objects in database.
+    Software frameworks sometime allow developers to automatically bind HTTP request parameters into program code variables or objects 
+    to make using that framework easier on developers. This can sometimes cause harm.
+</p>
+<p>
+    Attackers can sometimes use this methodology to create new parameters that the developer never intended which in turn creates or 
+    overwrites new variable or objects in program code that was not intended.
 </p>
 <p>
     <b>Vulnerable Code:</b></br/>
@@ -6671,7 +6675,7 @@ A code that applies the uppercase transformation to two strings could mistakenly
 
 <p>
 In the code bellow, the string <code>"ADM\u0131N"</code> would cause the condition to be true.
-When the uppercase transformation is applied, the character `\u0131` will becomme '\u0049' (I).
+When the uppercase transformation is applied, the character `\u0131` will become '\u0049' (I).
 It can be an issue if the developer only one user to be <code>"ADMIN"</code>.<br/>
 <pre>
 if(username.toUpperCase().equals("ADMIN")) {
@@ -6683,7 +6687,7 @@ if(username.toUpperCase().equals("ADMIN")) {
 <p>
 Similar characters transformations can occurs with normalization functions.
 In the code bellow, the string <code>"BAC\u212AUP"</code> would cause the condition to be true.
-When the normalization transformation is applied, the character `\u212A` will becomme '\u0048' (K).<br/>
+When the normalization transformation is applied, the character `\u212A` will become '\u004B' (K).<br/>
 <pre>
 if(Normalizer.normalize(input, Normalizer.Form.NFC).equals("BACKUP")) {
   //...
